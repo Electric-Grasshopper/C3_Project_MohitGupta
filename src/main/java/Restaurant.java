@@ -9,6 +9,7 @@ public class Restaurant {
     public LocalTime openingTime;
     public LocalTime closingTime;
     private List<Item> menu = new ArrayList<Item>();
+    private int totalcost = 0;
 
     public Restaurant(String name, String location, LocalTime openingTime, LocalTime closingTime) {
         this.name = name;
@@ -18,15 +19,20 @@ public class Restaurant {
     }
 
     public boolean isRestaurantOpen() {
-        return true;
         //DELETE ABOVE STATEMENT AND WRITE CODE HERE
+        if (closingTime.isAfter(getCurrentTime()) && openingTime.isBefore(getCurrentTime())){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public LocalTime getCurrentTime(){ return  LocalTime.now(); }
 
     public List<Item> getMenu() {
-        return null;
         //DELETE ABOVE RETURN STATEMENT AND WRITE CODE HERE
+        return menu;
     }
 
     private Item findItemByName(String itemName){
@@ -35,6 +41,13 @@ public class Restaurant {
                 return item;
         }
         return null;
+    }
+
+    public int totalCostOfOrder(List<String> selectedMenuItems){
+        for(String itemName: selectedMenuItems){
+            totalcost += findItemByName(itemName).getPrice();
+        }
+        return totalcost;
     }
 
     public void addToMenu(String name, int price) {
